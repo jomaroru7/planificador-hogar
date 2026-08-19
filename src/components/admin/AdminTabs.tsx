@@ -9,6 +9,7 @@ const TABS = [
   { href: "/admin/tareas", label: "Tareas" },
   { href: "/admin/comidas", label: "Comidas" },
   { href: "/admin/eventos", label: "Eventos" },
+  { href: "/admin/notificaciones", label: "Notificaciones" },
 ] as const;
 
 export default function AdminTabs() {

@@ -51,6 +51,23 @@ export interface EventRow {
   created_at: string;
 }
 
+// Telegram chat linked to a logged-in user, receives the daily digest / replies to /hoy.
+export interface TelegramSubscriberRow {
+  id: string;
+  user_id: string;
+  chat_id: string;
+  active: boolean;
+  created_at: string;
+}
+
+// Short-lived code a logged-in user generates in-app and sends to the bot via /vincular.
+export interface TelegramLinkCodeRow {
+  code: string;
+  user_id: string;
+  expires_at: string;
+  created_at: string;
+}
+
 // Minimal typed schema so @supabase/supabase-js can type `.from(table)` calls.
 export interface Database {
   public: {
@@ -98,6 +115,21 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Omit<EventRow, "id" | "created_at">>;
+        Relationships: [];
+      };
+      telegram_subscribers: {
+        Row: TelegramSubscriberRow;
+        Insert: Omit<TelegramSubscriberRow, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Omit<TelegramSubscriberRow, "id" | "created_at">>;
+        Relationships: [];
+      };
+      telegram_link_codes: {
+        Row: TelegramLinkCodeRow;
+        Insert: Omit<TelegramLinkCodeRow, "created_at"> & { created_at?: string };
+        Update: Partial<TelegramLinkCodeRow>;
         Relationships: [];
       };
     };

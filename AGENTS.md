@@ -39,6 +39,9 @@ Antes de asumir cómo funciona algo, consulta:
   `src/lib/basePath.ts` / `src/app/manifest.ts`.
 - [`docs/CORDOVA.md`](docs/CORDOVA.md) — empaquetado móvil opcional/secundario,
   no está scaffoldeado (solo `cordova/config.xml` de referencia).
+- [`docs/TELEGRAM.md`](docs/TELEGRAM.md) — bot de Telegram (Supabase Edge
+  Functions) que envía el resumen diario de tareas/menú/eventos y responde a
+  `/hoy`.
 
 ## Convenciones a respetar
 

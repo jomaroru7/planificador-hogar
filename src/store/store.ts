@@ -4,6 +4,7 @@ import tasksReducer from "./slices/tasksSlice";
 import mealsReducer from "./slices/mealsSlice";
 import mealPlanReducer from "./slices/mealPlanSlice";
 import eventsReducer from "./slices/eventsSlice";
+import telegramReducer from "./slices/telegramSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     meals: mealsReducer,
     mealPlan: mealPlanReducer,
     events: eventsReducer,
+    telegram: telegramReducer,
   },
 });
 

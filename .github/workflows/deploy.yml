@@ -35,6 +35,7 @@ jobs:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_TELEGRAM_BOT_USERNAME: ${{ secrets.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME }}
         run: npm run build
 
       - name: Configurar Pages

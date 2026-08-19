@@ -35,6 +35,8 @@ El proyecto ya está preparado para publicarse en
    añade:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` (opcional, ver
+     [`docs/TELEGRAM.md`](TELEGRAM.md))
 
    (los mismos valores que tienes en tu `.env.local`, ver
    [`docs/SUPABASE.md`](SUPABASE.md)).

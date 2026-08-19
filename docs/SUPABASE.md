@@ -90,6 +90,28 @@ create table public.events (
   created_at timestamptz not null default now()
 );
 
+-- ─────────────────────────────────────────────
+-- Notificaciones de Telegram (ver docs/TELEGRAM.md)
+-- ─────────────────────────────────────────────
+-- Chats de Telegram vinculados a una cuenta; reciben el resumen diario y
+-- pueden pedirlo a demanda con /hoy.
+create table public.telegram_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  chat_id text not null unique,
+  active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+-- Código de un solo uso (caduca) que un usuario genera en la app y envía al
+-- bot con /vincular para asociar su chat_id a su cuenta.
+create table public.telegram_link_codes (
+  code text primary key,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
+
 -- Índices para las consultas por rango de fechas del calendario
 create index tasks_start_date_idx on public.tasks (start_date);
 create index task_completions_date_idx on public.task_completions (date);
@@ -120,6 +142,21 @@ create policy "authenticated read/write meal_plan" on public.meal_plan
 
 create policy "authenticated read/write events" on public.events
   for all to authenticated using (true) with check (true);
+
+-- A diferencia de las tablas de arriba, aquí sí importa el dueño: cada
+-- usuario solo ve/gestiona su propio chat vinculado. Los inserts/deletes que
+-- hace el bot (al procesar /vincular) usan la service role key y saltan RLS.
+alter table public.telegram_subscribers enable row level security;
+alter table public.telegram_link_codes enable row level security;
+
+create policy "users read own telegram subscription" on public.telegram_subscribers
+  for select to authenticated using (user_id = auth.uid());
+
+create policy "users unlink own telegram subscription" on public.telegram_subscribers
+  for delete to authenticated using (user_id = auth.uid());
+
+create policy "users manage own telegram link codes" on public.telegram_link_codes
+  for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
 ```
 
 > **Nota sobre el modelo de acceso:** no hay aislamiento por usuario/hogar — cualquier
